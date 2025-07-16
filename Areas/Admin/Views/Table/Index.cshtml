@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Restaurant_app.Models.TableArea>
+
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<div class="card-body py-3">
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="TableId">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Area.AreaName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TableCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SeatingCapacity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </th>
+         
+                <th>
+                    @Html.DisplayNameFor(model => model.Branch.BranchName)
+                </th>
+              
+                <th>Action</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Area.AreaName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TableCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SeatingCapacity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsActive)
+                    </td>
+                
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Branch.BranchName)
+                    </td>
+                  
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.TableId },new { @class = "btn btn-primary" })
+                    
+                    </td>
+                </tr>
+            }
+
+        </table>

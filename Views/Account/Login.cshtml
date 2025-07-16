@@ -1,0 +1,115 @@
+﻿@using Restaurant_app.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
+<link href="~/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+<link href="~/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+
+<style>
+    .login-card {
+        max-width: 1500px;
+        margin: 50px auto;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        padding: 30px;
+        background-color: #fff;
+    }
+
+    .btn-blue {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-blue:hover {
+            background-color: #0056b3;
+            color: #e8f0ff;
+        }
+
+    .text-danger {
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    .form-control {
+        border-radius: 4px;
+        border: 1px solid #ced4da;
+    }
+
+    .card-header h4 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .card-header {
+        text-align: center;
+        padding-bottom: 20px;
+    }
+
+    .login-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+        .login-link a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+            .login-link a:hover {
+                color: #0056b3;
+            }
+</style>
+
+<div class="d-flex flex-column flex-root" id="kt_app_root">
+    <div class="login-card">
+        <div class="card-header">
+            <h4>@ViewBag.Title</h4>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-group mb-4">
+                    @Html.LabelFor(m => m.Email, new { @class = "form-label" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Enter your email" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group mb-4">
+                    @Html.LabelFor(m => m.Password, new { @class = "form-label" })
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Enter your password" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group mb-4">
+                    <div class="form-check">
+                        @Html.CheckBoxFor(m => m.RememberMe, new { @class = "form-check-input" })
+                        @Html.LabelFor(m => m.RememberMe, new { @class = "form-check-label" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Log in" class="btn-blue w-100" />
+                </div>
+
+                <div class="login-link">
+                    <p>@Html.ActionLink("Register as a new user", "Register")</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

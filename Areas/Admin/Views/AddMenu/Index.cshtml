@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Restaurant_app.Models.Menu>
+
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<div class="card-body py-3">
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.MenuName)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Branch.BranchName)
+                </th>
+
+                <th>Action</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MenuName)
+                    </td>
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Branch.BranchName)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.MenuId },new { @class = "btn btn-primary" })
+                        
+                    </td>
+                </tr>
+            }
+
+        </table>

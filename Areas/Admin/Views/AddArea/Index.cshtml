@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Restaurant_app.Models.Area>
+
+<p>
+    @Html.ActionLink("Add" +
+    " New", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<div class="card-body py-3">
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="AreaId">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.AreaName)
+                </th>
+             
+                <th>
+                    @Html.DisplayNameFor(model => model.Branch.BranchName)
+                </th>
+           
+                <th>Action</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AreaName)
+                    </td>
+                 
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Branch.BranchName)
+                    </td>
+                   
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.AreaId }, new { @class = "btn btn-primary" })
+                     
+                    </td>
+                </tr>
+            }
+
+        </table>

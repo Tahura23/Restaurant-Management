@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Restaurant_app.Models.Branch>
+
+<p>
+    @Html.ActionLink("Add Branch", "Create", null, new { @class = "btn btn-primary" })
+</p>
+
+    <div class="card-body py-3">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="BranchId">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BranchName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BranchAddress)
+                    </th>
+                  
+                    <th>
+                        @Html.DisplayNameFor(model => model.CoverImage)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Latitude)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Longitude)
+                    </th>
+                
+                    <th>Action</th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BranchName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BranchAddress)
+                        </td>
+                      
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.CoverImage))
+                            {
+                                <img src="@Url.Content("~/Images/Restaurant/" + item.CoverImage)" alt="@item.CoverImage" width="100" />
+                            }
+                            else
+                            {
+                                <span>No image</span>
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Latitude)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Longitude)
+                        </td>
+                      
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.BranchId },new { @class = "btn btn-primary" })
+                          
+                        </td>
+                    </tr>
+                }
+
+            </table>

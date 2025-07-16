@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Restaurant_app.Models.MenuItem>
+
+<p>
+    @Html.ActionLink("AddMenuItem", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<div class="card-body py-3">
+    <div class="table-responsive rounded object-fit-cover">
+        <table class="table table-bordered table-striped" id="ItemId">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemName)
+                </th>
+               
+                <th>
+                    @Html.DisplayNameFor(model => model.Rate)
+                </th>
+              
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PreparationTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemImage)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsAvailable)
+                </th>
+                <th>Action</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemName)
+                    </td>
+                  
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rate)
+                    </td>
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PreparationTime)
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.ItemImage))
+                        {
+                            <img src="@Url.Content("~/Images/Restaurant/" + item.ItemImage)" alt="@item.ItemName" width="100" 
+                                 width="70" height="70"
+                                 class="rounded object-fit-cover"/>
+                        }
+                        else
+                        {
+                            <span>No image</span>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsAvailable)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ItemId, @class = "btn btn-primary" },new{ @class = "btn btn-primary" })
+                     
+                    </td>
+                </tr>
+            }
+
+        </table>

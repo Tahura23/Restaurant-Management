@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Restaurant_app.Models.ItemCategory>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<p>
+    @Html.ActionLink("Add Item Category", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<div class="card-body py-3">
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="CategoryId">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.CategoryName)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Branch.BranchName)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CategoryName)
+                    </td>
+                 
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Branch.BranchName)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.CategoryId },new { @class = "btn btn-primary" }) 
+                       
+                    </td>
+                </tr>
+            }
+
+        </table>

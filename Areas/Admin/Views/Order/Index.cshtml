@@ -1,0 +1,165 @@
+﻿@model IEnumerable<Restaurant_app.Models.MenuItem>
+
+<h2 class="text-">Order Now</h2>
+
+<div class="container">
+    <ul class="nav nav-pills mb-3" id="category-tabs">
+        <!-- Category Tabs -->
+
+        <li class="nav-item"><a class="nav-link active" data-category="all" href="#">All</a></li>
+        <li class="nav-item"><a class="nav-link" data-category="3" href="#">Starter</a></li>
+        <li class="nav-item"><a class="nav-link" data-category="4" href="#">Main Course</a></li>
+        <li class="nav-item"><a class="nav-link" data-category="5" href="#">Bread</a></li>
+        <li class="nav-item"><a class="nav-link" data-category="6" href="#">Rice</a></li>
+        <li class="nav-item"><a class="nav-link" data-category="7" href="#">Drink</a></li>
+    </ul>
+
+    <div class="row">
+        <!-- Menu Section -->
+        <div class="col-md-8">
+            <div class="row" id="menuItems">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-6 mb-4 menu-item" data-category="@item.CategoryId">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-body d-flex flex-column">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-grow-1">
+                                        <h5 class="card-title text-primary">@item.ItemName</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">Price: &#8377;@item.Rate.ToString("F2")</h6>
+                                        <p class="card-text small text-secondary">Preparation Time: @item.PreparationTime mins</p>
+                                    </div>
+                                    <div class="ms-3">
+                                        <img src="@Url.Content("~/Images/Restaurant/" + item.ItemImage)"
+                                             alt="@item.ItemName"
+                                             width="70" height="70"
+                                             class="rounded object-fit-cover">
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <button class="btn btn-primary add-to-order-btn"
+                                            data-id="@item.ItemId"
+                                            data-name="@item.ItemName"
+                                            data-rate="@item.Rate">
+                                        Add to Order
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Order Details Section -->
+        <div class="col-md-4">
+            <h3 class="text-center">Order Details</h3>
+            <table class="table" id="order-details">
+                <thead>
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Rate</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamic rows will be added here -->
+                </tbody>
+            </table>
+            <h4 class="text-end">Total: &#8377;<span id="total-amount">0.00</span></h4>
+            <button id="submit-order" class="btn btn-success w-100">Submit Order</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .object-fit-cover {
+        object-fit: cover;
+    }
+</style>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const orderDetails = document.querySelector('#order-details tbody');
+            const totalAmount = document.getElementById('total-amount');
+
+            // Filter items based on category selection
+            document.querySelectorAll('#category-tabs .nav-link').forEach(tab => {
+                tab.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelectorAll('#category-tabs .nav-link').forEach(link => link.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const category = this.getAttribute('data-category');
+                    document.querySelectorAll('.menu-item').forEach(item => {
+                        if (category === 'all' || item.getAttribute('data-category') === category) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Add item to order
+            document.querySelectorAll('.add-to-order-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const itemId = this.getAttribute('data-id');
+                    const itemName = this.getAttribute('data-name');
+                    const itemRate = parseFloat(this.getAttribute('data-rate'));
+
+                    // Check if item is already in the order
+                    const existingRow = orderDetails.querySelector(`[data-id="${itemId}"]`);
+                    if (existingRow) {
+                        const qtyInput = existingRow.querySelector('.quantity');
+                        qtyInput.value = parseInt(qtyInput.value) + 1; // Increment quantity
+                        updateRowTotal(existingRow);
+                    } else {
+                        const row = document.createElement('tr');
+                        row.setAttribute('data-id', itemId);
+                        row.innerHTML = `
+                            <td>${itemName}</td>
+                            <td>${itemRate.toFixed(2)}</td>
+                            <td>
+                                <input type="number" class="quantity" value="1" min="1" style="width: 60px;" />
+                            </td>
+                            <td class="row-total">${itemRate.toFixed(2)}</td>
+                            <td>
+                                <button class="btn btn-danger remove-item">Remove</button>
+                            </td>
+                        `;
+                        orderDetails.appendChild(row);
+                        row.querySelector('.quantity').addEventListener('input', function () {
+                            updateRowTotal(row);
+                        });
+                        row.querySelector('.remove-item').addEventListener('click', function () {
+                            row.remove();
+                            updateTotalAmount();
+                        });
+                    }
+                    updateTotalAmount();
+                });
+            });
+
+            function updateRowTotal(row) {
+                const qty = parseInt(row.querySelector('.quantity').value);
+                const rate = parseFloat(row.querySelector('td:nth-child(2)').innerText);
+                row.querySelector('.row-total').innerText = (qty * rate).toFixed(2);
+                updateTotalAmount();
+            }
+
+            function updateTotalAmount() {
+                let total = 0;
+                orderDetails.querySelectorAll('tr').forEach(row => {
+                    total += parseFloat(row.querySelector('.row-total').innerText);
+                });
+                totalAmount.innerText = total.toFixed(2);
+            }
+        });
+    </script>
+    }

@@ -1,0 +1,120 @@
+﻿
+@model Restaurant_app.Models.Reservation
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="card mt-5 shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">New Reservation</h4>
+        </div>
+        <div class="card-body">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class=" row">
+                <div class="  col-md-6"
+                    <div class="form-group">
+                        <label>Choose Date</label>
+                        @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", @id = "datepicker" } })
+
+
+                    </div>
+                 <div class="  col-md-6">
+            <div>
+                <label>Branch</label>
+                @Html.DropDownList("BranchId", ViewBag.BranchId as List<SelectListItem>, "Select Branch", new { @id = "BranchId", @class = "form-control" })
+            </div>
+                </div>
+                </div>
+                <div class=" row">
+                    <div class="  col-md-6">
+                        <div>
+                            <label>Meal</label>
+                            @Html.DropDownList("MealId", ViewBag.MealId as List<SelectListItem>, "Select Meal", new { @id = "MealId", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="  col-md-6">
+                        <div>
+                            <label>Guest</label>
+                            @Html.DropDownList("GuestId", ViewBag.GuestId as List<SelectListItem>, "Select Guest", new { @id = "GuestId", @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class=" row">
+                    <div class="  col-md-6">
+                        <div>
+                            <label>TimeSlot</label>
+                            @Html.DropDownList("TimeSlotId", ViewBag.TimeSlotId as List<SelectListItem>, "Select TimeSlot", new { @id = "TimeSlotId", @class = "form-control" })
+                        </div>
+                    </div>
+
+
+                    <div class="  col-md-6">
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Requestdes, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Requestdes, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Requestdes, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class=" row">
+                    <div class="  col-md-6">
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CustomerName, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="  col-md-6">
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="card-footer text-end">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary ms-2" })
+                    </div>
+
+                </div>
+
+                </div>
+                }
+
+
+                @section Scripts {
+                    @Scripts.Render("~/bundles/jqueryval")
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+                    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+                    <script>
+                        $(document).ready(function () {
+                            $("#datepicker").datepicker({
+                                dateFormat: "yy-mm-dd", 
+                                changeMonth: true,     
+                                changeYear: true,      
+                                showAnim: "slideDown"  
+                            });
+                        });
+                    </script>
+                }
