@@ -60,6 +60,7 @@ namespace Restaurant_app.Areas.Admin.Controllers
             return View(new MenuItem());
 
         }
+        //Get menu list
         public JsonResult GetMenus(int branchId)
         {
             var menus = db.Menus
@@ -71,6 +72,7 @@ namespace Restaurant_app.Areas.Admin.Controllers
                           }).ToList();
             return Json(menus, JsonRequestBehavior.AllowGet);
         }
+        //get item categories
         public JsonResult GetItemCategories(int branchId)
         {
             var categories = db.ItemCategories
@@ -97,6 +99,7 @@ namespace Restaurant_app.Areas.Admin.Controllers
 
                     OrganizationInfo orginfo = new OrganizationInfo();
                     var uid = User.Identity.GetUserId();
+                    // get organisation info
                     orginfo = db.OrganizationInfoes.FirstOrDefault(d => d.UserId == uid);
 
 
@@ -113,6 +116,7 @@ namespace Restaurant_app.Areas.Admin.Controllers
 
                     db.SaveChanges();
 
+                    //checking condition for profile photo
                     if (ProfilePhoto != null && ProfilePhoto.ContentLength > 0)
                     {
                         var fileName = Path.GetFileName(ProfilePhoto.FileName);
