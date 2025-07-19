@@ -44,6 +44,8 @@ namespace Restaurant_app.Areas.Admin.Controllers
             {
                 OrganizationInfo orginfo = new OrganizationInfo();
                 var uid = User.Identity.GetUserId();
+
+                 //get organusation info 
                 orginfo = db.OrganizationInfoes.FirstOrDefault(d => d.UserId == uid);
 
 
